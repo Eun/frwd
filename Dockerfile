@@ -2,8 +2,8 @@ FROM caddy:2.4.6-alpine
 
 
 RUN apk add --no-cache dropbear haproxy &&         \
-    adduser frwd -s /bin/http-entrypoint.sh -D &&  \
-    mkdir /home/frwd/.ssh &&                       \
+    adduser http -s /bin/http-entrypoint.sh -D &&  \
+    mkdir /home/http/.ssh &&                       \
     mkdir /etc/dropbear && \
     echo /bin/http-entrypoint.sh >> /etc/shells
 
