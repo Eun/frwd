@@ -1,0 +1,10 @@
+{
+	https_port 444
+}
+*.{$DOMAIN} {
+	reverse_proxy localhost:{labels.2}
+}
+{$DOMAIN} {
+	respond ""
+}
+
