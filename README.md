@@ -11,8 +11,6 @@ Make sure to pass following environment variables
 |------------------------|----------|-------------------------------------------|-----------------|
 | DOMAIN                 | yes      | the domain                                | example.com     |
 | AUTHORIZED_KEYS_BASE64 | yes      | base64 encoded .ssh/authorized_keys file  | AAAA            |
-| MIN_PORT               | no       | minimum remote port to listen on          | 1024 (default)  |
-| MAX_PORT               | no       | maximum remote port to listen on          | 2048 (default)  |
 
 > frwd will automatically fetch https certificates on demand by using [Let's Encrypt](https://letsencrypt.org).
 > The more ports available the more certificates might be created. 
@@ -22,11 +20,9 @@ docker run  \
     --detach \
     --restart always \
     --name frwd \
-    --network=host \
+    --network host \
     --env DOMAIN=example.com \
     --env AUTHORIZED_KEYS_BASE64=AAAA \
-    --env MIN_PORT=1024 \
-    --env MAX_PORT=2048 \
     --volume /frwd_data:/data \
     eunts/frwd:latest
 ```
@@ -36,6 +32,15 @@ To keep *frwd* from regenerating and reissuing certificates use a named volume f
 ```shell
 docker run ... --volume /frwd_data:/data ....
 ```
+
+## A note about networking
+In theory you could use the publish option of docker:
+```shell
+docker run --publish 80:80 --publish 443:443 --publish 22:22
+```
+This, however, will drop the tcp functionalty.  
+Instead of publishing all ports that you want to use for tcp mode the `--network host` option can be used to automatically 
+expose all ports frwd listens on. Notice that this could conflict with your sshd setting.
 
 
 # Usage
