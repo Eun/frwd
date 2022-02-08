@@ -3,20 +3,20 @@ Just another **nearly zero configuration** ngrok ssh alternative.
 With automatic https, http and tcp support.
 
 ## Setup
-Deploy using your favorite cloud provider.
+1. Deploy using your favorite cloud provider.
 
-Make sure to pass following environment variables
+   Make sure to pass following environment variables
 
-| environment variable   | required | description                               | example         |
-|------------------------|----------|-------------------------------------------|-----------------|
-| DOMAIN                 | yes      | the domain                                | example.com     |
-| AUTHORIZED_KEYS_BASE64 | yes      | base64 encoded .ssh/authorized_keys file  | AAAA            |
+   | environment variable   | required | description                               | example         |
+   |------------------------|----------|-------------------------------------------|-----------------|
+   | DOMAIN                 | yes      | the domain                                | example.com     |
+   | AUTHORIZED_KEYS_BASE64 | yes      | base64 encoded .ssh/authorized_keys file  | AAAA            |
 
-> frwd will automatically fetch https certificates on demand by using [Let's Encrypt](https://letsencrypt.org).
-> The more ports available the more certificates might be created. 
+   > frwd will automatically fetch https certificates on demand by using [Let's Encrypt](https://letsencrypt.org).
+   > The more ports available the more certificates might be created. 
 
-```shell
-docker run  \
+   ```shell
+   docker run  \
     --detach \
     --restart always \
     --name frwd \
@@ -25,7 +25,9 @@ docker run  \
     --env AUTHORIZED_KEYS_BASE64=AAAA \
     --volume /frwd_data:/data \
     eunts/frwd:latest
-```
+   ```
+2. Point your domain to the IP address of your server running the docker container.
+
 
 ## A note about persistence
 To keep *frwd* from regenerating and reissuing certificates use a named volume for the docker command:
