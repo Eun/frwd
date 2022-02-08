@@ -53,7 +53,7 @@ expose all ports *frwd* listens on. Notice that this could conflict with your ss
    ```
    ssh -R 9000:127.0.0.1:8000 frwd@example.com
    ```
-3. Browse to `https://9000.example.com, `http://9000.example.com` or `http://example.com:9000`
+3. Browse to `https://9000.example.com`, `http://9000.example.com` or `http://example.com:9000`
 
 
 # Little helper
