@@ -1,0 +1,35 @@
+{
+    http_port 80
+    https_port 443
+    auto_https disable_redirects
+}
+http://*.{$DOMAIN}, https://*.{$DOMAIN} {
+    tls {
+        on_demand
+    }
+    @hostnames header_regexp host Host ([0-9]+)\.{$DOMAIN}
+    handle @hostnames {
+        reverse_proxy localhost:{http.regexp.host.1}
+    }
+    handle_errors {
+        respond "Unable to connect to {http.regexp.host.1}: {http.error.status_code} {http.error.status_text}" {http.error.status_code} {
+            close
+        }
+    }
+    handle {
+            respond 400 {
+                body "bad request"
+                close
+            }
+    }
+}
+http://{$DOMAIN}, https://{$DOMAIN} {
+    tls {
+        on_demand
+    }
+    respond 400 {
+        body "bad request"
+        close
+    }
+}
+

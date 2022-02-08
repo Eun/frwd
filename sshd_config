@@ -1,0 +1,56 @@
+# What ports, IPs and protocols we listen for
+Port 22
+Protocol 2
+# HostKeys for protocol version 2
+HostKey /data/sshd_keys/ssh_host_ecdsa_key
+HostKey /data/sshd_keys/ssh_host_ed25519_key
+
+# Force bind to 0.0.0.0
+GatewayPorts yes
+
+
+# Allow Remote forwards
+PermitListen *
+
+# Deny Local forwards
+PermitOpen none
+
+# Deny Stream forwards
+AllowStreamLocalForwarding no
+
+# Deny X11Forwarding
+X11Forwarding no
+
+# Only allow frwd user
+AllowUsers frwd
+
+# Deny Env
+AcceptEnv none
+
+# Logging
+SyslogFacility AUTH
+LogLevel INFO
+
+# Authentication:
+LoginGraceTime 120
+PermitRootLogin no
+# Do not check authorized_keys file for permissions
+StrictModes no
+
+PubkeyAuthentication yes
+AuthorizedKeysFile /etc/ssh/authorized_keys
+
+IgnoreRhosts yes
+HostbasedAuthentication no
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+PasswordAuthentication no
+X11Forwarding no
+X11DisplayOffset 10
+PrintMotd no
+TCPKeepAlive yes
+# Do not lookup remote host name
+UseDNS no
+
+ClientAliveInterval 15
+ClientAliveCountMax 3
