@@ -34,13 +34,13 @@ docker run ... --volume /frwd_data:/data ....
 ```
 
 ## A note about networking
-In theory you could use the publish option of docker:
+In theory you could use the `publish` option of docker:
 ```shell
-docker run --publish 80:80 --publish 443:443 --publish 22:22
+docker run ... --publish 80:80 --publish 443:443 --publish 22:22 ...
 ```
 This, however, will drop the tcp functionalty.  
 Instead of publishing all ports that you want to use for tcp mode the `--network host` option can be used to automatically 
-expose all ports frwd listens on. Notice that this could conflict with your sshd setting.
+expose all ports *frwd* listens on. Notice that this could conflict with your sshd setting.
 
 
 # Usage
