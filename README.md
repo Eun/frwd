@@ -21,14 +21,11 @@ docker run  \
     --detach \
     --restart always \
     --name frwd \
-    --publish 80:80 \
-    --publish 443:443 \
-    --publish 22:22 \
+    --network=host \
     --env DOMAIN=example.com \
     --env AUTHORIZED_KEYS_BASE64=AAAA \
     --env MIN_PORT=1024 \
     --env MAX_PORT=2048 \
-    --expose 1024-2048 \
     --volume /frwd_data:/data \
     eunts/frwd:latest
 ```
