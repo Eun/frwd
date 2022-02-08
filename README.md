@@ -1,5 +1,6 @@
 # frwd
-Just another **nearly zero configuration** ngrok ssh alternative.
+Just another **nearly zero configuration** ngrok ssh alternative.  
+With automatic https, http and tcp support.
 
 ## Setup
 Deploy using your favorite cloud provider.
@@ -33,7 +34,7 @@ docker run  \
 ## A note about persistence
 To keep *frwd* from regenerating and reissuing certificates use a named volume for the docker command:
 ```shell
-   docker run ... --volume /frwd_data:/data ....
+docker run ... --volume /frwd_data:/data ....
 ```
 
 
@@ -47,7 +48,7 @@ To keep *frwd* from regenerating and reissuing certificates use a named volume f
    ```
    ssh -R 9000:127.0.0.1:8000 frwd@example.com
    ```
-3. Browse to https://9000.example.com, http://9000.example.com or http://example.com:9000
+3. Browse to [https://9000.example.com](https://9000.example.com), [http://9000.example.com](http://9000.example.com) or [http://example.com:9000](http://example.com:9000)
 
 
 # Little helper
