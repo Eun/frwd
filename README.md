@@ -11,7 +11,7 @@ Make sure to pass following environment variables
 |--------------------------|----------|-------------------------------------------|-----------------|----------|
 | `DOMAIN`                 | yes      | the domain                                | `example.com`   |          |
 | `AUTHORIZED_KEYS_BASE64` | yes      | base64 encoded .ssh/authorized_keys file  | `AAAA`          |          |
-| `SSHD_PORT`              | no       | the sshd port frwd to listen on           | `2222`          | `2222`   |
+| `SSHD_PORT`              | no       | the sshd port frwd listen on           | `2222`          | `2222`   |
 
 > frwd will automatically fetch https certificates on demand by using [Let's Encrypt](https://letsencrypt.org).
 > The more ports available the more certificates might be created.
@@ -32,7 +32,7 @@ docker run  \
 
 3. Download and adjust the helper [frwd.sh](frwd.sh).
 
-4. Run `frwd.sh <LOCAL-PORT> [REMOTE-PORT]`
+4. Run `frwd.sh <LOCAL-PORT> [REMOTE-PORT]`.
 
 ## A note about networking
 In theory you could use the `publish` option of docker:
