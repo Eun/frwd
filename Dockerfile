@@ -1,5 +1,4 @@
-FROM caddy:2.4.6-alpine
-
+FROM caddy:2.6.4-alpine
 
 RUN apk add --no-cache openssh-server           && \
     adduser frwd -s /bin/ssh-entrypoint.sh -D   && \
@@ -12,7 +11,6 @@ COPY Caddyfile /etc/caddy/Caddyfile
 COPY ssh-entrypoint.sh /bin/ssh-entrypoint.sh
 COPY entrypoint.sh /bin/entrypoint.sh
 
-EXPOSE 22/tcp
 EXPOSE 80/tcp
 EXPOSE 443/tcp
 

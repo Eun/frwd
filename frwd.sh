@@ -4,7 +4,7 @@ set -euo pipefail
 ###################################
 # Define your domain here
 DOMAIN=example.com
-SSH_PORT=22
+SSHD_PORT=2222
 
 # Define the minimum and maximum random remote ports
 MIN_REMOTE_PORT=1024
@@ -58,4 +58,4 @@ fi
 echo "tcp://$DOMAIN:$REMOTE_PORT -> 127.0.0.1:$LOCAL_PORT"
 echo "http://$REMOTE_PORT.$DOMAIN  -> 127.0.0.1:$LOCAL_PORT"
 echo "https://$REMOTE_PORT.$DOMAIN -> 127.0.0.1:$LOCAL_PORT"
-ssh -p$SSH_PORT -T -R $REMOTE_PORT:127.0.0.1:"$LOCAL_PORT" frwd@$DOMAIN
+ssh -p$SSHD_PORT -T -R $REMOTE_PORT:127.0.0.1:"$LOCAL_PORT" frwd@$DOMAIN

@@ -1,17 +1,21 @@
 #!/bin/sh
 set -euo pipefail
 
-if [ -z "$DOMAIN" ]; then
+if [ -z ${DOMAIN:-} ]; then
   echo "\$DOMAIN is not defined"
   exit 1
 fi
 
-echo $DOMAIN > /etc/hostname
-
-if [ -z "$AUTHORIZED_KEYS_BASE64" ]; then
+if [ -z ${AUTHORIZED_KEYS_BASE64:-} ]; then
   echo "\$AUTHORIZED_KEYS_BASE64 is not defined"
   exit 1
 fi
+
+if [ -z ${SSHD_PORT:-} ]; then
+  export SSHD_PORT=2222
+fi
+
+echo $DOMAIN > /etc/hostname
 
 echo "copying ssh keys"
 echo $AUTHORIZED_KEYS_BASE64 | base64 -d > /etc/ssh/authorized_keys
@@ -35,9 +39,8 @@ if [ ! -e /data/sshd_keys/ssh_host_ed25519_key ]; then
   ssh-keygen -f /data/sshd_keys/ssh_host_ed25519_key -N '' -t ed25519
 fi
 
-echo "staring ssh"
-/usr/sbin/sshd
+echo "staring ssh on port $SSHD_PORT"
+/usr/sbin/sshd -p $SSHD_PORT
 
 echo "staring caddy"
-caddy run -config /etc/caddy/Caddyfile -watch
-
+caddy run --config /etc/caddy/Caddyfile

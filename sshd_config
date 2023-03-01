@@ -1,5 +1,4 @@
 # What ports, IPs and protocols we listen for
-Port 22
 Protocol 2
 # HostKeys for protocol version 2
 HostKey /data/sshd_keys/ssh_host_ecdsa_key
