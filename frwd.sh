@@ -52,7 +52,7 @@ if [ $# -eq 2 ]; then
   REMOTE_PORT=$2
 else
   # randomly generate a random port
-  REMOTE_PORT=$(($MIN_REMOTE_PORT + $(($RANDOM % $MAX_REMOTE_PORT))))
+  REMOTE_PORT=$((((RANDOM + RANDOM) % ($MAX_REMOTE_PORT-$MIN_REMOTE_PORT+1)) + $MIN_REMOTE_PORT))
 fi
 
 echo "tcp://$DOMAIN:$REMOTE_PORT -> 127.0.0.1:$LOCAL_PORT"
