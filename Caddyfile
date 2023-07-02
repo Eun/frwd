@@ -12,7 +12,7 @@ http://*.{$DOMAIN}, https://*.{$DOMAIN} {
         reverse_proxy localhost:{http.regexp.host.1}
     }
     handle_errors {
-        respond "Unable to connect to {http.regexp.host.1}: {http.error.status_code} {http.error.status_text}" {http.error.status_code} {
+        respond @hostnames "Unable to connect to {http.regexp.host.1}: {http.error.status_code} {http.error.status_text}" {http.error.status_code} {
             close
         }
     }
