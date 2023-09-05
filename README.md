@@ -26,7 +26,7 @@ docker run  \
   --env AUTHORIZED_KEYS_BASE64=AAAA \
   --env SSHD_PORT=2222 \
   --volume /frwd_data:/data \
-  eunts/frwd:latest
+  ghcr.io/eun/frwd:latest
 ```
 2. Point your domain to the ip address of your server running the docker container.
 
