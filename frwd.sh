@@ -4,7 +4,8 @@ set -euo pipefail
 ###################################
 # Define your domain here
 DOMAIN=example.com
-SSHD_PORT=2222
+SSH_PORT=2222
+USER=frwd
 
 # Define the minimum and maximum random remote ports
 MIN_REMOTE_PORT=1024
@@ -13,12 +14,14 @@ MAX_REMOTE_PORT=2048
 
 
 if [ $# -lt 1 ]; then
-    echo "frwd <local-port> [remote-port]"
+    echo "frwd [local-ip]:<local-port> [remote-port]"
     echo "   examples:"
     echo "       # spin up a tunnel to port 8000 with a random remote port"
     echo "       frwd 8000"
     echo "       # spin up a tunnel to port 8000 with remote port 1024"
     echo "       frwd 8000 1024"
+    echo "       # spin up a tunnel to port 192.168.0.10:8000 with remote port 1024"
+    echo "       frwd 192.168.0.10:8000 1024"
     exit 1
 fi
 
@@ -42,9 +45,21 @@ function isNumberAndInRange() {
     fi
 }
 
+
+
+LOCAL_ADDR=(${1//:/ })
+
+if [ ${#LOCAL_ADDR[@]} -eq 1 ]; then
+  LOCAL_PORT="${LOCAL_ADDR[0]}"
+  LOCAL_HOST="127.0.0.1"
+else
+  LOCAL_PORT="${LOCAL_ADDR[1]}"
+  LOCAL_HOST="${LOCAL_ADDR[0]}"
+fi
+
 # test if local port is a number and in range
-isNumberAndInRange "$1" 1 65535
-LOCAL_PORT=$1
+isNumberAndInRange "$LOCAL_PORT" 1 65535
+LOCAL_ADDR="$LOCAL_HOST:$LOCAL_PORT"
 
 if [ $# -eq 2 ]; then
   # test if remote port is a number and in range
@@ -55,7 +70,7 @@ else
   REMOTE_PORT=$((((RANDOM + RANDOM) % ($MAX_REMOTE_PORT-$MIN_REMOTE_PORT+1)) + $MIN_REMOTE_PORT))
 fi
 
-echo "tcp://$DOMAIN:$REMOTE_PORT -> 127.0.0.1:$LOCAL_PORT"
-echo "http://$REMOTE_PORT.$DOMAIN  -> 127.0.0.1:$LOCAL_PORT"
-echo "https://$REMOTE_PORT.$DOMAIN -> 127.0.0.1:$LOCAL_PORT"
-ssh -p$SSHD_PORT -T -R $REMOTE_PORT:127.0.0.1:"$LOCAL_PORT" frwd@$DOMAIN
+echo "tcp://$DOMAIN:$REMOTE_PORT -> $LOCAL_ADDR"
+echo "http://$REMOTE_PORT.$DOMAIN  -> $LOCAL_ADDR"
+echo "https://$REMOTE_PORT.$DOMAIN -> $LOCAL_ADDR"
+ssh -p$SSH_PORT -T -R "$REMOTE_PORT:$LOCAL_ADDR" "$USER@$DOMAIN"
